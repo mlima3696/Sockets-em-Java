@@ -16,7 +16,7 @@ import java.net.InetAddress;
 public class ClientUDP {
     public static void main(String[] args) {
         
-        String mensagem = "Solicito";
+        String mensagem = "Solicito o ip do servidor";
         byte[] data = mensagem.getBytes();
         int porta = 12345;
         String ip = "255.255.255.255";
@@ -26,6 +26,15 @@ public class ClientUDP {
             InetAddress ina = InetAddress.getByName(ip);
             DatagramPacket enviando = new DatagramPacket(data, data.length, ina, porta);
             client.send(enviando);
+            
+            byte[] receive = new byte[1024];
+            DatagramPacket recebendo = new DatagramPacket(receive,receive.length,ina, porta);
+            client.receive(recebendo);
+            
+            String ipServidor = recebendo.getAddress().toString();
+            System.out.println("ip do servidor: " + ipServidor);
+            client.close();
+            
         } catch (Exception e) {
         }
         
